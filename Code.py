@@ -30,3 +30,15 @@ if necessities >= 0:
 else:
     print("Your expenses is more than your income.")
 
+//not sure if this works
+categories = list(expense_list.keys())
+values = list(expense_list.values())
+
+plt.bar(categories, values)
+
+plt.xlabel('Categories')
+plt.ylabel('Expenses')
+plt.title('Expenses based on categories')
+
+# Display the plot
+plt.show()
