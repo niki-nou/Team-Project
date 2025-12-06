@@ -1,4 +1,4 @@
-# !pip install openai
+!pip install openai
 
 import os
 
@@ -33,7 +33,7 @@ expense_list = {
 
 if savings > 0:
     expense_list["money left"] = savings
-    
+
 maximum = max(expense_list.values())
 result = [key for key, value in expense_list.items() if value == maximum]
 
@@ -46,7 +46,7 @@ print("Expenses: $" + str(total_expenses))
 if savings < 0:
     print("You spent more than your income so you don't have any savings")
 else:
-    print("Savings: $" + str(savings))
+    print("Money Left: $" + str(savings))
 print("Your highest expense category is " + str(result))
 
 print("\n--------------------------------------")
