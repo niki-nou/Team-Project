@@ -2,12 +2,9 @@
 
 import os
 
-os.environ["OPENAI_API_KEY"]
-
 import matplotlib.pyplot as plt
 import numpy as np
 from openai import OpenAI
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 
 #Getting inputs
@@ -41,25 +38,35 @@ if necessities >= 0:
 else:
     print("Your expenses is more than your income.")
 
-#AI insights
-prompt = f"""
-Here is a user's monthly income and expenses:
 
-Income: {overall_income}
-Expenses: {expense_list}
-
-Give them:
-- A simple budget diagnosis
-- One money saving tip
-- Whether their expenses are good for someone with their income
-"""
-
-response = client.chat.completions.create(
-    model = "gpt-4o-mini",
-    messages = [{"role": "user", "content": prompt}]
+#AI Insights
+client = OpenAI(
+    base_url="https://router.huggingface.co/v1",
+    api_key=os.getenv("AI_TOKEN"),
 )
 
-print(response.choices[0].message["content"])
+completion = client.chat.completions.create(
+    model="CohereLabs/c4ai-command-a-03-2025:cohere",
+    messages=[
+        {
+            "role": "user",
+            "content": f"""
+            You are a financial advisor.
+            Here is a user's monthly income and expenses:
+
+            Income: {overall_income}
+            Expenses: {expense_list}
+
+            Give them:
+            - A simple budget diagnosis
+            - One money saving tip
+            - Whether their expenses are good for someone with their income
+        """
+        }
+    ],
+)
+
+print(completion.choices[0].message.content)
 
 #Expense breakdown with pie chart
 plt.pie(expense_list.values(), labels=expense_list.keys(), autopct='%1.1f%%')
